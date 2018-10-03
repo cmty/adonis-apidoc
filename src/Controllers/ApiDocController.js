@@ -1,9 +1,9 @@
 'use strict'
 
+const path = require('path')
 const { chain, find, capitalize, upperCase, startsWith, endsWith } = require('lodash')
 
 const Route = use('Adonis/Src/Route')
-
 const Imperium = use('Adonis/Addons/Imperium')
 
 class ApiDocController {
@@ -50,9 +50,6 @@ class ApiDocController {
         }
       })
       .groupBy((route) => {
-        if (['/me'].indexOf(route.name) !== -1) return 'users'
-        if (['/login/github', '/github/callback', '/logout'].indexOf(route.name) !== -1) return 'authentication'
-
         const name = route.name
           .replace('.index', '')
           .replace('.show', '')
@@ -64,8 +61,8 @@ class ApiDocController {
       })
       .value()
 
-    return view.render('apidoc', { routes, roles })
+    return view.render(path.join(__dirname, './views/apidoc.edge'), { routes, roles })
   }
 }
 
-module.exports = new ApiDocController()
+module.exports = ApiDocController

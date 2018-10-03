@@ -68,4 +68,4 @@ class ApiDocController {
   }
 }
 
-module.exports = ApiDocController
+module.exports = new ApiDocController()

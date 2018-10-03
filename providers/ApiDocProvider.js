@@ -1,5 +1,8 @@
 'use strict'
 
+const path = require('path')
+const edge = require('edge.js')
+
 const { ServiceProvider } = require('@adonisjs/fold')
 
 class ApiDocProvider extends ServiceProvider {
@@ -10,6 +13,10 @@ class ApiDocProvider extends ServiceProvider {
     const ApiDocController = require('../src/Controllers/ApiDocController')
 
     Route.get('/api/doc', ApiDocController.render)
+  }
+
+  register () {
+    edge.registerViews(path.join(__dirname, './views'))
   }
 }
 

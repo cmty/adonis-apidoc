@@ -7,8 +7,9 @@ class ApiDocProvider extends ServiceProvider {
     if (process.env.NODE_ENV !== 'development') return
 
     const Route = use('Adonis/Src/Route')
+    const ApiDocController = require('../src/Controllers/ApiDocController')
 
-    Route.get('/api/doc', 'ApiDocController.render')
+    Route.get('/api/doc', ApiDocController.render)
   }
 }
 

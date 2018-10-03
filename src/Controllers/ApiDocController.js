@@ -1,12 +1,10 @@
-/* istanbul ignore file */
-
 'use strict'
 
 const { chain, find, capitalize, upperCase, startsWith, endsWith } = require('lodash')
 
 const Route = use('Adonis/Src/Route')
 
-const Imperium = use('Imperium')
+const Imperium = use('Adonis/Addons/Imperium')
 
 class ApiDocController {
   render ({ view }) {

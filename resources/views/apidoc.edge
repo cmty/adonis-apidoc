@@ -1,0 +1,144 @@
+{{ style('apidoc') }}
+
+<head>
+  <title>{{name}} API Documentation</title>
+</head>
+
+<body class="index">
+  <div class="toc-wrapper">
+    <img src="/logo.svg" width="75" class="logo" alt="Logo">
+    <ul id="toc" class="toc-list-h1">
+      <li>
+        <a href="#introduction" class="toc-h1 toc-link">Introduction</a>
+      </li>
+
+      @if(roles.length)
+        <li>
+          <a href="#roles" class="toc-h1 toc-link">Roles</a>
+
+          <ul class="toc-list-h2">
+            @each(role in roles)
+              <li>
+                <a href="#{{ lowerCase(role.name).replace(/\ /g, '-') }}" class="toc-h2 toc-link">{{ role.name }}</a>
+              </li>
+            @endeach
+          </ul>
+        </li>
+      @endif
+
+      @each((groupedRoutes, name) in routes)
+        <li>
+          <a href="#{{name}}" class="toc-h1 toc-link">{{name.replace(/\./g, ' ').replace('_', ' ')}}</a>
+
+          @if(groupedRoutes.length)
+            <ul class="toc-list-h2">
+              @each(route in groupedRoutes)
+                <li>
+                  <a href="#{{ route.id }}" class="toc-h2 toc-link">
+                    @if(route.resource)
+                      <strong>{{ route.action }}</strong>
+                      {{ route.resource }}
+                    @else
+                      <strong>{{ route.verb }}</strong>
+                      {{ route.action }}
+                    @endif
+                  </a>
+                </li>
+              @endeach
+            </ul>
+          @endif
+        </li>
+      @endeach
+    </ul>
+  </div>
+  <div class="page-wrapper">
+    <div class="content">
+      <h1 id="introduction">Introduction</h1>
+      <p>Welcome to the CMTY API Documentation.</p>
+
+      <h1 id="roles">Roles</h1>
+
+      @each(role in roles)
+        <h2 id="{{ lowerCase(role.name).replace(/\ /g, '-') }}">{{ role.name }}</h2>
+
+        @each(action in role.actions)
+          <h3>{{ action.name }}</h3>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              @each((value, key) in action.params)
+                <tr>
+                  <td>{{ key }}</td>
+                  <td>{{ value }}</td>
+                </tr>
+              @endeach
+            </tbody>
+          </table>
+        @endeach
+      @endeach
+
+      @each((groupedRoutes, name) in routes)
+        <h1 id="{{ name }}">{{ name.replace(/\./g, ' ') }}</h1>
+
+        @if(groupedRoutes.length)
+          @each(route in groupedRoutes)
+            <h2 id="{{ route.id }}">
+              {{ route.action }}
+
+              @if(route.resource)
+                {{ route.resource }}
+              @endif
+            </h2>
+
+            <h3 id="http-request">HTTP Request</h3>
+            <p><code><b>{{ route.verb }}</b> {{ route._route }}</code></p>
+
+            @if(route.rules)
+              <h3>BODY Parameters</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Rules</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @each((rules, key) in route.rules)
+                    <tr>
+                      <td>{{ key }}</td>
+                      <td>{{ rules }}</td>
+                    </tr>
+                  @endeach
+                </tbody>
+              </table>
+            @endif
+
+            @if(route.auth)
+              <aside class="success">
+                This route requires authentication!
+              </aside>
+            @endif
+
+            @if(route.can)
+              <aside class="notice">
+                This route requires <b>{{ route.can }}</b> permission!
+              </aside>
+            @endif
+
+            @if(route.is)
+              <aside class="notice">
+                This route requires <b>{{ route.is }}</b> role!
+              </aside>
+            @endif
+          @endeach
+        @endif
+      @endeach
+    </div>
+  </div>
+</body>

@@ -1,0 +1,25 @@
+{
+  "name": "adonis-apidoc",
+  "version": "0.0.1",
+  "description": "AdonisJs API Documentation out of the box.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmty/adonis-apidoc.git"
+  },
+  "scripts": {
+    "lint": "standard src/**",
+    "preversion": "npm run lint"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "4.17.11"
+  },
+  "devDependencies": {
+    "standard": "12.0.1"
+  },
+  "standard": {
+    "globals": [
+      "use"
+    ]
+  }
+}

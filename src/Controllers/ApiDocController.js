@@ -3,11 +3,13 @@
 const path = require('path')
 const { chain, find, capitalize, upperCase, startsWith, endsWith } = require('lodash')
 
+const Config = use('Config')
 const Route = use('Adonis/Src/Route')
 const Imperium = use('Adonis/Addons/Imperium')
 
 class ApiDocController {
   render ({ view }) {
+    const name = Config.get('app.appName')
     const roles = Imperium ? Imperium.roles() : []
 
     const routes = chain(Route.list())
@@ -61,7 +63,7 @@ class ApiDocController {
       })
       .value()
 
-    return view.render(path.join(__dirname, './views/apidoc.edge'), { routes, roles })
+    return view.render(path.join(__dirname, './views/apidoc.edge'), { routes, roles, name })
   }
 }
 
